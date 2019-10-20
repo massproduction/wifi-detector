@@ -4,6 +4,7 @@
 //
 
 import Cocoa
+import CoreWLAN
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -17,6 +18,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             button.action = #selector(printQuote(_:))
         }
         constructMenu()
+        let wifis = getWifis()
+        print(wifis)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -30,8 +33,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print("\(quoteText) — \(quoteAuthor)")
     }
     
-    func getWifis() {
-        // TODO: add code here
+    func getWifis() -> [String] {
+        let client = CWWiFiClient.init()
+        guard let interfaces = client.interfaces() else { return ["error"] }
+        for interface in interfaces {
+            print(interface.bssid() ?? "no bssid found" )
+        }
+        return ["hep"]
     }
     
     func constructMenu() {
@@ -43,6 +51,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         statusItem.menu = menu
     }
+    
 
 }
 
