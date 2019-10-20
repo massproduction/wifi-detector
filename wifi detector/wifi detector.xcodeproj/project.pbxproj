@@ -21,6 +21,7 @@
 		894A12A5217DA9BB0009EC4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		894A12A7217DA9BB0009EC4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		894A12A8217DA9BB0009EC4E /* wifi_detector.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = wifi_detector.entitlements; sourceTree = "<group>"; };
+		89A776B4235CC8970036277E /* wifi detector.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "wifi detector.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +55,7 @@
 		894A129D217DA9BA0009EC4E /* wifi detector */ = {
 			isa = PBXGroup;
 			children = (
+				89A776B4235CC8970036277E /* wifi detector.entitlements */,
 				894A129E217DA9BA0009EC4E /* AppDelegate.swift */,
 				894A12A0217DA9BA0009EC4E /* ViewController.swift */,
 				894A12A2217DA9BB0009EC4E /* Assets.xcassets */,
@@ -105,10 +107,10 @@
 						CreatedOnToolsVersion = 10.0;
 						SystemCapabilities = {
 							com.apple.NetworkExtensions = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Sandbox = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -287,7 +289,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "wifi detector/wifi_detector.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -308,7 +309,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "wifi detector/wifi_detector.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
