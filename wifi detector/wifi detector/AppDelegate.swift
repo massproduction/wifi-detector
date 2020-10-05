@@ -18,22 +18,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to initialize your application
         if let button = statusItem.button {
             button.image = NSImage(named:NSImage.Name("StatusBarButtonImage"))
-            button.action = #selector(printQuote(_:))
         }
         constructMenu()
-        let wifiSSID = getWifiSSID()
-        print(wifiSSID)
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
-    }
-
-    @objc func printQuote(_ sender: Any?) {
-        let quoteText = "Never put off until tomorrow what you can do the day after tomorrow."
-        let quoteAuthor = "Mark Twain"
-        
-        print("\(quoteText) — \(quoteAuthor)")
     }
     
     @objc func saveWifiSSID(_ sender: Any?) {
@@ -52,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if (response == NSApplication.ModalResponse.alertFirstButtonReturn) {
             SSID = txt.stringValue
-            if (SSID == CWWiFiClient.shared().interface()?.ssid()) {
+            if (SSID == getWifiSSID()) {
                 print("SSID matches the current one!")
             }
         }
@@ -70,9 +60,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
         
         menu.addItem(NSMenuItem(title: "Add your SSID", action: #selector(AppDelegate.saveWifiSSID(_:)), keyEquivalent: "S"))
-        menu.addItem(NSMenuItem(title: "Print Quote", action: #selector(AppDelegate.printQuote(_:)), keyEquivalent: "P"))
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(NSMenuItem(title: "Quit Quotes", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: "Quit Wifi detector", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         
         statusItem.menu = menu
     }
