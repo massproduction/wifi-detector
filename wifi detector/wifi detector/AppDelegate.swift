@@ -10,12 +10,16 @@ import AppKit
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
+    var loopRunning = false
     var SSID = ""
 
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+        if (!loopRunning) {
+            startLoop()
+        }
         if let button = statusItem.button {
             button.image = NSImage(named:NSImage.Name("StatusBarButtonImage"))
         }
@@ -24,13 +28,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
+        loopRunning = false
     }
     
     @objc func saveWifiSSID(_ sender: Any?) {
         // Declare Alert message
         let msg = NSAlert()
         msg.addButton(withTitle: "OK")
-        msg.addButton(withTitle: "Cancel")
+        msg.addButton(withTitle: "Cancel"   )
         msg.messageText = "Wifi Detector"
         msg.informativeText = "Add your SSID here"
         
@@ -64,6 +69,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem(title: "Quit Wifi detector", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
         
         statusItem.menu = menu
+    }
+    
+    func startLoop() {
+        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            if (self.SSID == self.getWifiSSID()) {
+                print("SSID matches the current one!")
+            } else {
+                print("SSID does not match the current one!")
+            }
+        }
+        self.loopRunning = true
     }
     
 
