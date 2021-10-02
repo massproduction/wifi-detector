@@ -6,11 +6,14 @@
 import Cocoa
 import CoreWLAN
 import AppKit
+import IOKit.pwr_mgt
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
     var loopRunning = false
+    var assertionID: IOPMAssertionID = 0
+    var sleepDisabled = false
     var SSID = ""
 
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
@@ -75,13 +78,28 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             if (self.SSID == self.getWifiSSID()) {
                 print("SSID matches the current one!")
+                self.disableScreenSleep()
             } else {
                 print("SSID does not match the current one!")
+                self.enableScreenSleep()
             }
         }
         self.loopRunning = true
     }
     
+    
+    func disableScreenSleep(reason: String = "Disabling Screen Sleep") {
+        if !sleepDisabled {
+            sleepDisabled = IOPMAssertionCreateWithName(kIOPMAssertionTypeNoDisplaySleep as CFString, IOPMAssertionLevel(kIOPMAssertionLevelOn), reason as CFString, &assertionID) == kIOReturnSuccess
+        }
 
+    }
+    func enableScreenSleep() {
+        if sleepDisabled {
+            IOPMAssertionRelease(assertionID)
+            sleepDisabled = false
+        }
+
+    }
 }
 
