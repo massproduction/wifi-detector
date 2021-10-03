@@ -26,12 +26,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if let button = statusItem.button {
             button.image = NSImage(named:NSImage.Name("StatusBarButtonImage"))
         }
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(AppDelegate.sleepListener(_:)), name: NSWorkspace.willSleepNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(AppDelegate.wakeUpListener(_:)), name: NSWorkspace.didWakeNotification, object: nil)
         constructMenu()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         // Insert code here to tear down your application
         loopRunning = false
+    }
+    
+    @objc func sleepListener(_ aNotification : NSNotification) {
+        print("Sleep Listening");
+    }
+
+    @objc func wakeUpListener(_ aNotification : NSNotification) {
+        print("Wake Up Listening");
     }
     
     @objc func saveWifiSSID(_ sender: Any?) {
@@ -101,5 +111,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
     }
+    
+    
 }
 
