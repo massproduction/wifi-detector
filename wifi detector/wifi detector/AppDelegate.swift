@@ -14,6 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var loopRunning = false
     var assertionID: IOPMAssertionID = 0
     var sleepDisabled = false
+    var timer: Timer?
     var SSID = ""
 
     let statusItem = NSStatusBar.system.statusItem(withLength:NSStatusItem.squareLength)
@@ -37,10 +38,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     @objc func sleepListener(_ aNotification : NSNotification) {
+        stopLoop()
         print("Sleep Listening");
     }
 
     @objc func wakeUpListener(_ aNotification : NSNotification) {
+        startLoop()
         print("Wake Up Listening");
     }
     
@@ -85,7 +88,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
     
     func startLoop() {
-        _ = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             if (self.SSID == self.getWifiSSID()) {
                 print("SSID matches the current one!")
                 self.disableScreenSleep()
@@ -95,6 +98,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             }
         }
         self.loopRunning = true
+    }
+    
+    func stopLoop() {
+        timer?.invalidate()
+        timer = nil
     }
     
     
