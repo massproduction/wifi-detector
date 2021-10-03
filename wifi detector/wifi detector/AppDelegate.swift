@@ -39,12 +39,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @objc func sleepListener(_ aNotification : NSNotification) {
         stopLoop()
-        print("Sleep Listening");
     }
 
     @objc func wakeUpListener(_ aNotification : NSNotification) {
         startLoop()
-        print("Wake Up Listening");
     }
     
     @objc func saveWifiSSID(_ sender: Any?) {
@@ -63,12 +61,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         if (response == NSApplication.ModalResponse.alertFirstButtonReturn) {
             SSID = txt.stringValue
-            if (SSID == getWifiSSID()) {
-                print("SSID matches the current one!")
-            }
         }
-        
-        print("SSID saved as " + SSID)
     }
     
     func getWifiSSID() -> String {
@@ -90,10 +83,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func startLoop() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
             if (self.SSID == self.getWifiSSID()) {
-                print("SSID matches the current one!")
                 self.disableScreenSleep()
             } else {
-                print("SSID does not match the current one!")
                 self.enableScreenSleep()
             }
         }
